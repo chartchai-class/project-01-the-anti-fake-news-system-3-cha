@@ -1,3 +1,74 @@
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue';
+import NewsCard from '@/components/NewsCard.vue';
+import axios from 'axios';
+import type { New } from '@/types';
+
+const newsList = ref<New[]>([]);
+const page = ref(1);
+const limit = ref<any>(null);
+const filter = ref('all');
+
+// Reset page to 1 when filter changes
+watch(filter, () => {
+  page.value = 1;
+});
+
+// Reset page to 1 when limit changes
+watch(limit, () => {
+  page.value = 1;
+});
+
+const filteredNews = computed(() => {
+  if (filter.value === 'all') {
+    return newsList.value;
+  }
+  if (filter.value === 'fake news') {
+    return newsList.value.filter(news => news.status.toLowerCase() === 'fake news');
+  }
+  if (filter.value === 'real news') {
+    return newsList.value.filter(news => news.status.toLowerCase() === 'not-fake news');
+  }
+  return newsList.value;
+});
+
+const newsCount = computed(() => filteredNews.value.length);
+const filteredNewsCount = computed(() => {
+  if (filter.value === 'fake news') {
+    return 'Fake News';
+  } else if (filter.value === 'real news') {
+    return 'Real News';
+  } else {
+    return 'All News';
+  }
+});
+
+const totalPages = computed(() => {
+  if (limit.value === null) {
+    return Math.ceil(filteredNews.value.length / 4);
+  }
+  return Math.ceil(filteredNews.value.length / Number(limit.value));
+});
+
+const paginatedNews = computed(() => {
+  const currentLimit = limit.value === null ? 4 : Number(limit.value);
+  const start = (page.value - 1) * currentLimit;
+  const end = start + currentLimit;
+  return filteredNews.value.slice(start, end);
+});
+
+const fetchNews = async () => {
+  try {
+    const response = await axios.get('https://my-json-server.typicode.com/Ameyukiko/dataNew/news');
+    newsList.value = response.data;
+  } catch (error) {
+    console.error('Error fetching news:', error);
+  }
+};
+
+fetchNews();
+</script>
+
 <template>
   <div class="container mx-auto p-4 max-w-4xl">
     <div class="flex flex-col items-start text-sm font-sans mb-4">
@@ -70,74 +141,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref, computed, watch } from 'vue';
-import NewsCard from '@/components/NewsCard.vue';
-import axios from 'axios';
-import type { New } from '@/types';
-
-const newsList = ref<New[]>([]);
-const page = ref(1);
-const limit = ref<any>(null); // Change initial limit to null to match the placeholder value
-const filter = ref('all');
-
-// Reset page to 1 when filter changes
-watch(filter, () => {
-  page.value = 1;
-});
-
-// Reset page to 1 when limit changes
-watch(limit, () => {
-  page.value = 1;
-});
-
-const filteredNews = computed(() => {
-  if (filter.value === 'all') {
-    return newsList.value;
-  }
-  if (filter.value === 'fake news') {
-    return newsList.value.filter(news => news.status.toLowerCase() === 'fake news');
-  }
-  if (filter.value === 'real news') {
-    return newsList.value.filter(news => news.status.toLowerCase() === 'not-fake news');
-  }
-  return newsList.value;
-});
-
-const newsCount = computed(() => filteredNews.value.length);
-const filteredNewsCount = computed(() => {
-  if (filter.value === 'fake news') {
-    return 'Fake News';
-  } else if (filter.value === 'real news') {
-    return 'Real News';
-  } else {
-    return 'All News';
-  }
-});
-
-const totalPages = computed(() => {
-  if (limit.value === null) {
-    return Math.ceil(filteredNews.value.length / 4);
-  }
-  return Math.ceil(filteredNews.value.length / Number(limit.value));
-});
-
-const paginatedNews = computed(() => {
-  const currentLimit = limit.value === null ? 4 : Number(limit.value);
-  const start = (page.value - 1) * currentLimit;
-  const end = start + currentLimit;
-  return filteredNews.value.slice(start, end);
-});
-
-const fetchNews = async () => {
-  try {
-    const response = await axios.get('https://my-json-server.typicode.com/Ameyukiko/dataNew/news');
-    newsList.value = response.data;
-  } catch (error) {
-    console.error('Error fetching news:', error);
-  }
-};
-
-fetchNews();
-</script>
