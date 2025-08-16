@@ -49,7 +49,7 @@ const newsTypeClass = computed(() => {
         </div>
       </div>
 
-      <div class="w-32 h-32 flex-shrink-0 order-1 md:order-2">
+      <div class="w-60 h-40 flex-shrink-0 order-1 md:order-2">
         <img :src="news.imageLink" :alt="news.topic" class="w-full h-full rounded-md object-cover" />
       </div>
     </div>
