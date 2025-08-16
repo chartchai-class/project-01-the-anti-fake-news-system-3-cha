@@ -1,21 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import AboutView from '@/views/HomeView.vue'
-import EventDetailView from '@/views/news/DetailVeiw.vue'
-import EventEditView from '@/views/news/VoteView.vue'
-import EventLayoutView from '@/views/news/LayoutView.vue'
-import NotFoundView from '@/views/NotFoundView.vue'
-import NetworkErrorView from '@/views/NetworkErrorView.vue'
+import NewstDetailView from '@/views/news/DetailVeiw.vue'
+import NewsVoteView from '@/views/news/VoteView.vue'
+import NewsLayoutView from '@/views/news/LayoutView.vue'
 import nProgress from 'nprogress'
 import EventService from '@/services/NewsService'
 import { useEventStore } from '@/stores/new'
+import HomeView from '@/views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
   {
-      path: '/events/:id',
-      name: 'event-layout-view',
-      component: EventLayoutView,
+      path: '/news/:id',
+      name: 'news-layout-view',
+      component: NewsLayoutView,
       props: true,
       beforeEnter: (to) => {
         const id = parseInt(to.params.id as string)
@@ -38,36 +36,22 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'event-detail-view',
-          component: EventDetailView,
+          name: 'news-detail-view',
+          component: NewstDetailView,
           props: true
         },
         {
-          path: 'edit',
-          name: 'event-edit-view',
-          component: EventEditView,
+          path: 'vote',
+          name: 'news-vote-view',
+          component: NewsVoteView,
           props: true
         }
       ]
     },
     {
-      path: '/about',
-      name: 'about',
-      component: AboutView
-    },{
-      path: '/404/:resource',
-      name: '404-resource-view',
-      component: NotFoundView,
-      props: true
-    },
-    {
-      path: '/:catchAll(.*)',
-      name: 'not-found',
-      component: NotFoundView
-    },{
-      path: '/network-error',
-      name: 'network-error-view',
-      component: NetworkErrorView
+      path: '/home',
+      name: 'home-view',
+      component: HomeView
     },
   ],
   scrollBehavior(to, from, savedPosition) {
