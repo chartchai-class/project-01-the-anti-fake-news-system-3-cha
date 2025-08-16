@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create ({
-    baseURL: 'https://my-json-server.typicode.com/Ameyukiko/dataNew/news',
+    baseURL: 'https://my-json-server.typicode.com/Ameyukiko/dataNew',
     withCredentials: false,
     headers: {
         Accept: 'application/json',
@@ -10,10 +10,10 @@ const apiClient = axios.create ({
 })
 
 export default {
-    getEvents(perPage: number, page: number) {
-        return apiClient.get('/events?_limit=' + perPage + '&_page=' + page)
+    getNews(perPage: number, page: number) {
+        return apiClient.get('/news?_limit=' + perPage + '&_page=' + page)
     },
-    getEvent(id: number) {
-        return apiClient.get('/events/' + id)
+    getNew(id: number) {
+        return apiClient.get('/news/' + id)
     },
 }
