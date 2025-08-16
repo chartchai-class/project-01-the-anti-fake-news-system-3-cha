@@ -47,8 +47,8 @@ const router = createRouter({
           props: true
         },
         {
-          path: 'vote',
-          name: 'news-vote-view',
+          path: "/news/:id/vote",
+           name: 'news-vote-view',
           component: NewsVoteView,
           props: true
         }
