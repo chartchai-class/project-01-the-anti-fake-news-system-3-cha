@@ -1,13 +1,13 @@
-export interface Event {
+export interface NewsItem {
   id: number;
-  category: string;
-  title: string;
-  description: string;
-  location: string;
+  topic: string;
+  shortDetail: string;
+  fullDetail: string;
+  status: string;
+  reporter: string;
   date: string;
   time: string;
-  petsAllowed: boolean;
-  organizer: string;
+  imageLink: string;
 }
 
 export interface MessageState {
