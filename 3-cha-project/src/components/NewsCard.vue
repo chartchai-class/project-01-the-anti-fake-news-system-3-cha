@@ -1,19 +1,19 @@
 <template>
   <RouterLink :to="{ name: 'news-detail-view', params: { id: news.id } }">
-    <div class="flex flex-col md:flex-row items-start p-3 bg-white border border-gray-200 rounded-lg shadow-sm mb-3">
-      <div class="flex-1 pr-0 md:pr-3 font-amiri order-2 md:order-1">
-        <h2 class="font-sans text-lg font-bold mb-1">{{ news.topic }}</h2>
-        <p class="text-xs text-gray-700 leading-tight">{{ truncatedDetail }}</p>
+    <div class="flex flex-col md:flex-row items-start p-4 bg-white border border-gray-200 rounded-lg shadow-sm mb-4">
+      <div class="flex-1 pr-0 md:pr-4 font-amiri order-2 md:order-1">
+        <h2 class="font-sans text-xl font-bold mb-2">{{ news.topic }}</h2>
+        <p class="text-sm text-gray-700 leading-relaxed">{{ truncatedDetail }}</p>
 
-        <div class="flex items-center mt-2 text-xs text-gray-500">
+        <div class="flex items-center mt-4 text-xs text-gray-500">
           <div :class="newsTypeClass">{{ news.status }}</div>
-          <span class="ml-1">By {{ news.reporter }}</span>
-          <span class="ml-1">{{ news.date }}</span>
+          <span class="ml-2">By {{ news.reporter }}</span>
+          <span class="ml-2">{{ news.date }}</span>
         </div>
       </div>
 
-      <div class="w-24 h-24 flex-shrink-0 order-1 md:order-2 mb-2 md:mb-0">
-        <img :src="news.imageLink" :alt="news.topic" class="w-full h-full rounded-md object-cover" />
+      <div class="w-40 h-auto flex-shrink-0 order-1 md:order-2 mb-4 md:mb-0">
+        <img :src="news.imageLink" :alt="news.topic" class="w-full h-auto rounded-md object-cover" />
       </div>
     </div>
   </RouterLink>
@@ -29,7 +29,7 @@ const props = defineProps<{
 
 // Logic for truncating the short detail based on your requirement
 const truncatedDetail = computed(() => {
-  const wordLimit = 80;
+  const wordLimit = 150;
   if (props.news.shortDetail.length > wordLimit) {
     return props.news.shortDetail.substring(0, wordLimit) + '...';
   }

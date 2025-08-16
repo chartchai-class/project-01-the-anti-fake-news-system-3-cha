@@ -1,8 +1,10 @@
 <template>
   <div class="container mx-auto p-4 max-w-4xl">
-    <h1 class="text-3xl font-bold font-sans mb-4 text-center">Anti-Fake News System</h1>
+    <div class="flex justify-start text-sm font-sans my-4">
+      <span class="text-gray-500">All News ({{ newsList.length }})</span>
+    </div>
 
-    <div class="flex justify-center my-4 space-x-4">
+    <div class="flex justify-start my-4 space-x-4">
       <button 
         @click="filter = 'all'" 
         class="bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-md font-sans text-sm"
@@ -47,7 +49,7 @@
           v-for="p in totalPages" 
           :key="p" 
           @click="page = p" 
-          :class="{'bg-black text-white': p === page}"
+          :class="{'bg-[#19B917] text-white': p === page}"
           class="bg-gray-200 hover:bg-gray-300 py-1 px-3 rounded-md"
         >
           {{ p }}
@@ -79,7 +81,6 @@ const filteredNews = computed(() => {
   if (filter.value === 'all') {
     return newsList.value;
   }
-  // This is the updated filter logic
   if (filter.value === 'fake news') {
     return newsList.value.filter(news => news.status.toLowerCase() === 'fake news');
   }
@@ -101,7 +102,7 @@ const paginatedNews = computed(() => {
 
 const fetchNews = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/news');
+    const response = await axios.get('https://my-json-server.typicode.com/Ameyukiko/dataNew/news');
     newsList.value = response.data;
   } catch (error) {
     console.error('Error fetching news:', error);
