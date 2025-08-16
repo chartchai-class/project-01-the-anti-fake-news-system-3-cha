@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia';
-import type { NewsItem } from '@/types';
+import type { New } from '@/types';
 
 export const useNewsStore = defineStore('news', {
   state: () => ({
-    news: null as NewsItem | null
+    news: null as New | null
   }),
   actions: {
-    setNews(news: NewsItem) {
+    setNews(news: New) {
       this.news = news;
     }
   }
