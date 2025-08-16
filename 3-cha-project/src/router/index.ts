@@ -1,28 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import EventListView from '@/views/EventListView.vue'
-import AboutView from '@/views/AboutView.vue'
-import StudentsView from '@/views/StudentView.vue'
-import EventDetailView from '@/views/event/DetailVeiw.vue'
-import EventRegisterView from '@/views/event/RegisterView.vue'
-import EventEditView from '@/views/event/EditView.vue'
-import EventLayoutView from '@/views/event/LayoutView.vue'
+import AboutView from '@/views/HomeView.vue'
+import EventDetailView from '@/views/news/DetailVeiw.vue'
+import EventEditView from '@/views/news/VoteView.vue'
+import EventLayoutView from '@/views/news/LayoutView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import NetworkErrorView from '@/views/NetworkErrorView.vue'
 import nProgress from 'nprogress'
-import EventService from '@/services/EventService'
-import { useEventStore } from '@/stores/event'
+import EventService from '@/services/NewsService'
+import { useEventStore } from '@/stores/new'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/',
-      name: 'event-list-view',
-      component: EventListView,
-      props: (route) => ({
-        page: parseInt(route.query.page?.toString() || '1'),
-      })
-    },{
+  {
       path: '/events/:id',
       name: 'event-layout-view',
       component: EventLayoutView,
@@ -53,12 +43,6 @@ const router = createRouter({
           props: true
         },
         {
-          path: 'register',
-          name: 'event-register-view',
-          component: EventRegisterView,
-          props: true
-        },
-        {
           path: 'edit',
           name: 'event-edit-view',
           component: EventEditView,
@@ -84,11 +68,6 @@ const router = createRouter({
       path: '/network-error',
       name: 'network-error-view',
       component: NetworkErrorView
-    },
-    {
-      path: '/students',
-      name: 'students',
-      component: StudentsView
     },
   ],
   scrollBehavior(to, from, savedPosition) {

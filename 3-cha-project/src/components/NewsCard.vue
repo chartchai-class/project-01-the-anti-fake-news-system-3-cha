@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import EventInfo from './EventInfo.vue'
+import EventInfo from './NewsReporter.vue'
 import { type  Event } from '@/types'
 defineProps<{
   event: Event

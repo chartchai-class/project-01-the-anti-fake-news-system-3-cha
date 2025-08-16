@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useEventStore} from '@/stores/event'
+import { useEventStore} from '@/stores/new'
 import { storeToRefs } from 'pinia'
 
 const store = useEventStore()
