@@ -1,25 +1,25 @@
 <template>
-  <div class="container mx-auto p-4">
-    <h1 class="text-4xl font-bold font-inter mb-4">Anti-Fake News System</h1>
+  <div class="container mx-auto p-4 max-w-4xl">
+    <h1 class="text-3xl font-bold font-sans mb-4 text-center">Anti-Fake News System</h1>
 
     <div class="flex justify-center my-4 space-x-4">
       <button 
         @click="filter = 'all'" 
-        class="bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-md font-amiri"
+        class="bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-md font-sans text-sm"
         :class="{'bg-black text-white': filter === 'all'}"
       >
         All News
       </button>
       <button 
         @click="filter = 'fake news'" 
-        class="bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-md font-amiri"
+        class="bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-md font-sans text-sm"
         :class="{'bg-[#808080] text-white': filter === 'fake news'}"
       >
         Fake News
       </button>
       <button 
         @click="filter = 'real news'" 
-        class="bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-md font-amiri"
+        class="bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-md font-sans text-sm"
         :class="{'bg-[#19B917] text-white': filter === 'real news'}"
       >
         Real News
@@ -34,17 +34,8 @@
       />
     </div>
 
-    <div class="flex justify-between items-center mt-6">
-      <div class="text-sm font-amiri">
-        Items per page:
-        <select v-model="limit" @change="fetchNews">
-          <option :value="4">4</option>
-          <option :value="6">6</option>
-          <option :value="10">10</option>
-        </select>
-      </div>
-
-      <div class="flex space-x-2 font-inter text-sm">
+    <div class="flex justify-center items-center mt-6">
+      <div class="flex space-x-2 font-sans text-sm">
         <button 
           @click="page--" 
           :disabled="page === 1" 
@@ -88,7 +79,14 @@ const filteredNews = computed(() => {
   if (filter.value === 'all') {
     return newsList.value;
   }
-  return newsList.value.filter(news => news.status.toLowerCase() === filter.value);
+  // This is the updated filter logic
+  if (filter.value === 'fake news') {
+    return newsList.value.filter(news => news.status.toLowerCase() === 'fake news');
+  }
+  if (filter.value === 'real news') {
+    return newsList.value.filter(news => news.status.toLowerCase() === 'not-fake news');
+  }
+  return newsList.value;
 });
 
 const totalPages = computed(() => {
