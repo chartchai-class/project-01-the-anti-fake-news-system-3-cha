@@ -8,7 +8,7 @@
         <div class="flex items-center mt-4 text-xs text-gray-500">
           <div :class="newsTypeClass">{{ news.status }}</div>
           <span class="ml-2">By {{ news.reporter }}</span>
-          <span class="ml-2">{{ news.date }}</span>
+          <span class="ml-2">{{ news.date }} | {{ news.time }}</span>
         </div>
       </div>
 
