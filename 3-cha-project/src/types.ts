@@ -6,6 +6,7 @@ export interface New {
   reporter: string;
   status: string;
   date: string;
+  time: string
   imageLink: string;
   votesFake: number;
   votesNotFake: number;

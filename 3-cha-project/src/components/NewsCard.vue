@@ -1,8 +1,8 @@
 <template>
   <RouterLink :to="{ name: 'news-detail-view', params: { id: news.id } }">
-    <div class="flex items-center p-4 bg-white border border-gray-200 rounded-lg shadow-sm mb-4 w-full h-[240px]">
-      <div class="flex-1 pr-4 font-amiri order-2 md:order-1 self-stretch flex flex-col justify-between">
-        <div class="h-[150px] overflow-hidden">
+    <div class="flex items-center p-4 bg-white border border-gray-200 rounded-lg shadow-sm mb-4 w-[800px] h-[240px]">
+      <div class="flex-1 pr-4 font-amiri order-2 md:order-1 self-stretch flex flex-col justify-between h-[150px] overflow-hidden">
+        <div>
           <h2 class="font-sans text-xl font-bold mb-2">{{ news.topic }}</h2>
           <p class="text-sm text-gray-700 leading-relaxed">{{ truncatedDetail }}</p>
         </div>
