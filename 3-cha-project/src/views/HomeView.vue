@@ -5,7 +5,7 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m0 0l-7 7-7-7m9 4v7a1 1 0 01-1 1h-3" />
       </svg>
       <RouterLink class="font-bold text-gray-700" :to="{ name: 'home-view' }">Home</RouterLink>
-      <span class="ml-4 text-gray-500">All News ({{ totalNewsCount }})</span>
+      <span class="ml-4 text-gray-500">{{ filteredNewsCount }} ({{ newsCount }})</span>
     </div>
 
     <div class="flex justify-end mb-4 space-x-2">
@@ -14,7 +14,7 @@
           <option value="all">Type</option>
           <option value="all">All News</option>
           <option value="fake news">Fake News</option>
-          <option value="real news">Non-Fake News</option>
+          <option value="real news">Real News</option>
         </select>
       </div>
 
@@ -75,8 +75,6 @@ const page = ref(1);
 const limit = ref(4);
 const filter = ref('all');
 
-const totalNewsCount = computed(() => newsList.value.length);
-
 const filteredNews = computed(() => {
   if (filter.value === 'all') {
     return newsList.value;
@@ -88,6 +86,17 @@ const filteredNews = computed(() => {
     return newsList.value.filter(news => news.status.toLowerCase() === 'not-fake news');
   }
   return newsList.value;
+});
+
+const newsCount = computed(() => filteredNews.value.length);
+const filteredNewsCount = computed(() => {
+  if (filter.value === 'fake news') {
+    return 'Fake News';
+  } else if (filter.value === 'real news') {
+    return 'Real News';
+  } else {
+    return 'All News';
+  }
 });
 
 const totalPages = computed(() => {

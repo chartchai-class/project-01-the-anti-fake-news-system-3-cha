@@ -1,14 +1,18 @@
 <template>
   <RouterLink :to="{ name: 'news-detail-view', params: { id: news.id } }">
-    <div class="flex flex-col md:flex-row items-start p-4 bg-white border border-gray-200 rounded-lg shadow-sm mb-4">
-      <div class="flex-1 pr-0 md:pr-4 font-amiri order-2 md:order-1">
+    <div class="flex flex-col md:flex-row items-center p-4 bg-white border border-gray-200 rounded-lg shadow-sm mb-4 w-full">
+      <div class="flex-1 pr-0 md:pr-4 font-amiri order-2 md:order-1 self-stretch">
         <h2 class="font-sans text-xl font-bold mb-2">{{ news.topic }}</h2>
         <p class="text-sm text-gray-700 leading-relaxed">{{ truncatedDetail }}</p>
 
-        <div class="flex items-center mt-4 text-xs text-gray-500">
+        <div class="flex items-center mt-4">
           <div :class="newsTypeClass">{{ news.status }}</div>
-          <span class="ml-2">By {{ news.reporter }}</span>
-          <span class="ml-2">{{ news.date }} | {{ news.time }}</span>
+          <NewsReporter 
+            :reporter="news.reporter" 
+            :date="news.date" 
+            :time="news.time"
+            class="ml-2"
+          />
         </div>
       </div>
 
@@ -22,6 +26,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { type New } from '@/types';
+import NewsReporter from '@/components/NewsReporter.vue';
 
 const props = defineProps<{
   news: New

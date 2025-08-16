@@ -25,7 +25,7 @@ const router = createRouter({
       beforeEnter: (to) => {
         const id = parseInt(to.params.id as string)
         const newsStore = useNewsStore()
-        return NewsService.getNewsItem(id)
+        return NewsService.getNew(id)
           .then(response => {
             newsStore.setNews(response.data)
           }).catch(error => {
