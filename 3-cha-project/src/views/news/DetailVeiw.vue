@@ -1,15 +1,22 @@
 <script setup lang="ts">
 import { toRefs} from 'vue'
-import { type Event } from '@/types'
+import { type New } from '@/types'
 
 const props = defineProps<{
-  event: Event
+  news: New
 }>()
 
-const { event } = toRefs(props)
+const { news } = toRefs(props)
 </script>
 
 <template>
-        <p>{{ event.time }} on {{ event.date }} @ {{ event.location }}</p>
-        <p>{{ event.description }}</p>
+  <div>
+    <h1>{{ news.topic }}</h1>
+    <p>Date: {{  news.date }} | Time: {{ news.time }} | STATUS: {{ news.status }}</p>
+    <p>By {{ news.reporter }}</p>
+    <p>{{ news.imageLink }}</p>
+    <p>{{ news.fullDetail }}</p>
+
+
+  </div>
 </template>
