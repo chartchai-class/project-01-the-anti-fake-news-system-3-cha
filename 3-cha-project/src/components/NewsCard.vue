@@ -21,10 +21,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { type NewsItem } from '@/types';
+import { type New } from '@/types';
 
 const props = defineProps<{
-  news: NewsItem
+  news: New
 }>();
 
 // Logic for truncating the short detail based on your requirement
@@ -39,7 +39,7 @@ const truncatedDetail = computed(() => {
 // Tailwind class for the news type based on status
 const newsTypeClass = computed(() => {
   if (props.news.status.toLowerCase() === 'fake news') {
-    return 'bg-[#808080] text-white font-bold py-1 px-2 rounded-full text-xs';
+    return 'bg-[#FF0000] text-white font-bold py-1 px-2 rounded-full text-xs';
   } else {
     return 'bg-[#19B917] text-white font-bold py-1 px-2 rounded-full text-xs';
   }

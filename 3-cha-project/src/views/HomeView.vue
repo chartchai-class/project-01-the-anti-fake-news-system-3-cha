@@ -1,31 +1,29 @@
 <template>
   <div class="container mx-auto p-4 max-w-4xl">
-    <div class="flex justify-start text-sm font-sans my-4">
-      <span class="text-gray-500">All News ({{ newsList.length }})</span>
+    <div class="flex items-center text-sm font-sans mb-4">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m0 0l-7 7-7-7m9 4v7a1 1 0 01-1 1h-3" />
+      </svg>
+      <RouterLink class="font-bold text-gray-700" :to="{ name: 'home-view' }">Home</RouterLink>
+      <span class="ml-4 text-gray-500">All News ({{ totalNewsCount }})</span>
     </div>
 
-    <div class="flex justify-start my-4 space-x-4">
-      <button 
-        @click="filter = 'all'" 
-        class="bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-md font-sans text-sm"
-        :class="{'bg-black text-white': filter === 'all'}"
-      >
-        All News
-      </button>
-      <button 
-        @click="filter = 'fake news'" 
-        class="bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-md font-sans text-sm"
-        :class="{'bg-[#808080] text-white': filter === 'fake news'}"
-      >
-        Fake News
-      </button>
-      <button 
-        @click="filter = 'real news'" 
-        class="bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-md font-sans text-sm"
-        :class="{'bg-[#19B917] text-white': filter === 'real news'}"
-      >
-        Real News
-      </button>
+    <div class="flex justify-end mb-4 space-x-2">
+      <div class="relative inline-block text-left">
+        <select v-model="filter" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
+          <option value="all">Type</option>
+          <option value="all">All News</option>
+          <option value="fake news">Fake News</option>
+          <option value="real news">Non-Fake News</option>
+        </select>
+      </div>
+
+      <div class="relative inline-block text-left">
+        <select v-model="page" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
+          <option disabled value="">Page</option>
+          <option v-for="p in totalPages" :key="p" :value="p">{{ p }}</option>
+        </select>
+      </div>
     </div>
 
     <div class="flex flex-col items-center">
@@ -70,12 +68,14 @@
 import { ref, computed, watchEffect } from 'vue';
 import NewsCard from '@/components/NewsCard.vue';
 import axios from 'axios';
-import type { NewsItem } from '@/types';
+import type { New } from '@/types';
 
-const newsList = ref<NewsItem[]>([]);
+const newsList = ref<New[]>([]);
 const page = ref(1);
 const limit = ref(4);
 const filter = ref('all');
+
+const totalNewsCount = computed(() => newsList.value.length);
 
 const filteredNews = computed(() => {
   if (filter.value === 'all') {
