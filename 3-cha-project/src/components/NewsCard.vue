@@ -1,9 +1,11 @@
 <template>
   <RouterLink :to="{ name: 'news-detail-view', params: { id: news.id } }">
-    <div class="flex flex-col md:flex-row items-center p-4 bg-white border border-gray-200 rounded-lg shadow-sm mb-4 w-full">
-      <div class="flex-1 pr-0 md:pr-4 font-amiri order-2 md:order-1 self-stretch">
-        <h2 class="font-sans text-xl font-bold mb-2">{{ news.topic }}</h2>
-        <p class="text-sm text-gray-700 leading-relaxed">{{ truncatedDetail }}</p>
+    <div class="flex items-center p-4 bg-white border border-gray-200 rounded-lg shadow-sm mb-4 w-full h-[240px]">
+      <div class="flex-1 pr-4 font-amiri order-2 md:order-1 self-stretch flex flex-col justify-between">
+        <div class="h-[150px] overflow-hidden">
+          <h2 class="font-sans text-xl font-bold mb-2">{{ news.topic }}</h2>
+          <p class="text-sm text-gray-700 leading-relaxed">{{ truncatedDetail }}</p>
+        </div>
 
         <div class="flex items-center mt-4">
           <div :class="newsTypeClass">{{ news.status }}</div>
@@ -16,8 +18,8 @@
         </div>
       </div>
 
-      <div class="w-40 h-auto flex-shrink-0 order-1 md:order-2 mb-4 md:mb-0">
-        <img :src="news.imageLink" :alt="news.topic" class="w-full h-auto rounded-md object-cover" />
+      <div class="w-32 h-32 flex-shrink-0 order-1 md:order-2">
+        <img :src="news.imageLink" :alt="news.topic" class="w-full h-full rounded-md object-cover" />
       </div>
     </div>
   </RouterLink>

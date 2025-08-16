@@ -1,11 +1,13 @@
 <template>
   <div class="container mx-auto p-4 max-w-4xl">
-    <div class="flex items-center text-sm font-sans mb-4">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m0 0l-7 7-7-7m9 4v7a1 1 0 01-1 1h-3" />
-      </svg>
-      <RouterLink class="font-bold text-gray-700" :to="{ name: 'home-view' }">Home</RouterLink>
-      <span class="ml-4 text-gray-500">{{ filteredNewsCount }} ({{ newsCount }})</span>
+    <div class="flex flex-col items-start text-sm font-sans mb-4">
+      <div class="flex items-center">
+        <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" class="h-4 w-4 mr-1 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m0 0l-7 7-7-7m9 4v7a1 1 0 01-1 1h-3" />
+        </svg>
+        <RouterLink class="font-bold text-gray-700" :to="{ name: 'home-view' }">Home</RouterLink>
+      </div>
+      <span class="mt-1 ml-5 text-gray-500">{{ filteredNewsCount }} ({{ newsCount }})</span>
     </div>
 
     <div class="flex justify-end mb-4 space-x-2">
