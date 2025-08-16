@@ -1,7 +1,15 @@
+<script setup lang="ts">
+import { toRefs} from 'vue'
+import { type Event } from '@/types'
+
+const props = defineProps<{
+  event: Event
+}>()
+
+const { event } = toRefs(props)
+</script>
+
 <template>
-  <div class="about">
-    <h1>A site for events to better the world.</h1>
-  </div>
+        <p>{{ event.time }} on {{ event.date }} @ {{ event.location }}</p>
+        <p>{{ event.description }}</p>
 </template>
-
-

@@ -1,13 +1,14 @@
-export interface Event {
+export interface New {
   id: number;
-  category: string;
-  title: string;
-  description: string;
-  location: string;
+  topic: string;
+  shortDetail: string;
+  fullDetail: string;
+  reporter: string;
+  status: string;
   date: string;
-  time: string;
-  petsAllowed: boolean;
-  organizer: string;
+  imageLink: string;
+  votesFake: number;
+  votesNotFake: number;
 }
 
 export interface MessageState {
