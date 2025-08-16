@@ -3,18 +3,22 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <div class="text-center font-sans text-gray-700 antialiased">
-    <header>
-      <div class="px-8 py-4 text-left">
-        <div class="flex items-center text-black">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m0 0l-7 7-7-7m9 4v7a1 1 0 01-1 1h-3" />
-          </svg>
-          <RouterLink class="font-bold text-gray-700" exact-active-class="text-green-500" :to="{name: 'home-view'}">Home</RouterLink>
-        </div>
-      </div>
+  <!-- Main container with responsive padding -->
+  <div class="font-sans text-gray-700 antialiased p-4">
+    <header class="mb-8 mt-12">
+      <h1 class="text-4xl md:text-5xl font-bold font-sans text-[#19B917] text-center">Anti-Fake News System</h1>
     </header>
-    <h1 class="text-2xl md:text-3xl font-bold font-sans text-[#19B917] mb-8">Anti-Fake News</h1>
+
+    <!-- This container is for the Home link and logo, using a flexbox for dynamic alignment -->
+    <div class="flex justify-center">
+      <div class="flex items-center text-black">
+        <svg class="h-6 w-6 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+        </svg>
+        <RouterLink class="font-bold text-[#19B917]" exact-active-class="text-[#19B917]" :to="{name: 'home-view'}">Home</RouterLink>
+      </div>
+    </div>
+    
     <RouterView />
   </div>
 </template>

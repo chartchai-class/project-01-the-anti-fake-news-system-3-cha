@@ -9,14 +9,24 @@ const page = ref(1);
 const limit = ref<any>(null);
 const filter = ref('all');
 
-// Reset page to 1 when filter changes
+// Function to scroll the page to the top
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+};
+
+// Reset page to 1 and scroll to top when filter changes
 watch(filter, () => {
   page.value = 1;
+  scrollToTop();
 });
 
-// Reset page to 1 when limit changes
+// Reset page to 1 and scroll to top when limit changes
 watch(limit, () => {
   page.value = 1;
+  scrollToTop();
 });
 
 const filteredNews = computed(() => {
@@ -72,12 +82,6 @@ fetchNews();
 <template>
   <div class="container mx-auto p-4 max-w-4xl">
     <div class="flex flex-col items-start text-sm font-sans mb-4">
-      <div class="flex items-center">
-        <svg class="h-4 w-4 mr-1 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m0 0l-7 7-7-7m9 4v7a1 1 0 01-1 1h-3" />
-        </svg>
-        <RouterLink class="font-bold text-gray-700" :to="{ name: 'home-view' }">Home</RouterLink>
-      </div>
       <span class="mt-1 ml-5 text-gray-500">{{ filteredNewsCount }} ({{ newsCount }})</span>
     </div>
 
@@ -112,16 +116,16 @@ fetchNews();
     <div class="flex justify-center items-center mt-6">
       <div class="flex space-x-2 font-sans text-sm">
         <button 
-          @click="page--" 
+          @click="page--; scrollToTop()" 
           :disabled="page === 1" 
           class="bg-gray-200 hover:bg-gray-300 py-1 px-3 rounded-md disabled:opacity-50"
         >
-          Previous
+          &lt;&lt;
         </button>
         <button 
           v-for="p in totalPages" 
           :key="p" 
-          @click="page = p" 
+          @click="page = p; scrollToTop()" 
           :class="{
             'bg-gray-200 hover:bg-gray-300': p !== page,
             'bg-[#19B917] text-white': p === page
@@ -131,11 +135,11 @@ fetchNews();
           {{ p }}
         </button>
         <button 
-          @click="page++" 
+          @click="page++; scrollToTop()" 
           :disabled="page === totalPages" 
           class="bg-gray-200 hover:bg-gray-300 py-1 px-3 rounded-md disabled:opacity-50"
         >
-          Next
+          &gt;&gt;
         </button>
       </div>
     </div>
