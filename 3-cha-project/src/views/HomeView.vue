@@ -69,8 +69,8 @@ const paginatedNews = computed(() => {
 
 const fetchNews = async () => {
   try {
-    const response = await axios.get('https://my-json-server.typicode.com/Ameyukiko/dataNew/news');
-    newsList.value = response.data;
+    const response = await axios.get('https://db-news-theta.vercel.app/api/news');
+    newsList.value = response.data; 
   } catch (error) {
     console.error('Error fetching news:', error);
   }

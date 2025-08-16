@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create ({
-    baseURL: 'https://my-json-server.typicode.com/Ameyukiko/dataNew/news',
+    baseURL: 'https://db-news-theta.vercel.app/',
     withCredentials: false,
     headers: {
         Accept: 'application/json',
