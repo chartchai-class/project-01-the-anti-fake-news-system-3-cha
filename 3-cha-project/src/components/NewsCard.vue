@@ -28,8 +28,10 @@ const newsTypeClass = computed(() => {
 
 <template>
   <RouterLink :to="{ name: 'news-detail-view', params: { id: news.id } }">
-    <div class="flex flex-col md:flex-row items-start p-4 bg-white border border-gray-200 rounded-lg shadow-sm mb-4 w-full lg:w-[800px] h-auto lg:h-[240px]">
-      <div class="flex-1 pr-4 font-amiri order-2 md:order-1 self-stretch flex flex-col justify-between h-[150px] overflow-hidden">
+    <!-- Removed fixed height h-[240px] from here -->
+    <div class="flex flex-col md:flex-row items-start p-4 bg-white border border-gray-200 rounded-lg shadow-sm mb-4 w-full lg:w-[800px] h-auto">
+      <!-- Removed fixed height h-[150px] from here -->
+      <div class="flex-1 pr-4 font-amiri order-2 md:order-1 self-stretch flex flex-col justify-between overflow-hidden">
         <!-- The container for title and description is now text-left -->
         <div class="text-left">
           <h2 class="font-sans text-2xl md:text-3xl font-bold mb-2">{{ news.topic }}</h2>
