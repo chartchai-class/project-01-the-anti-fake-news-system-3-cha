@@ -3,7 +3,7 @@ import type { New } from '@/types';
 
 export const useNewsStore = defineStore('news', {
   state: () => ({
-    news: null as New | null
+    news: null as New| null
   }),
   actions: {
     setNews(news: New) {
