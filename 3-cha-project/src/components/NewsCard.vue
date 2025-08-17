@@ -53,34 +53,33 @@ const isFakeNews = computed(() => props.news.status.toLowerCase() === 'fake news
         <div class="flex flex-col lg:flex-row gap-6">
           
           <!-- Content Section -->
-          <div class="flex-1 space-y-4">
+          <div class="flex-1 flex flex-col">
             
-            <!-- Title -->
-            <div class="space-y-3">
-              <h2 class="text-xl lg:text-2xl font-bold text-gray-900 leading-tight group-hover:text-gray-700 transition-colors duration-200 line-clamp-2">
-                {{ news.topic }}
-              </h2>
+            <!-- Title and Description container -->
+            <div class="space-y-4 flex-grow">
               
-              <!-- Status Badge -->
-              <div class="flex items-center gap-3">
-                <span :class="[
-                  newsTypeClass.badge,
-                  'inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold shadow-lg'
-                ]">
-                  <span class="text-base">{{ newsTypeClass.icon }}</span>
-                  {{ news.status }}
-                </span>
+              <!-- Title -->
+              <div class="space-y-3">
+                <h2 class="text-xl lg:text-2xl font-bold text-gray-900 leading-tight group-hover:text-gray-700 transition-colors duration-200 line-clamp-2">
+                  {{ news.topic }}
+                </h2>
                 
-                <!-- Reading Time Estimate -->
-                <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">
-                  📖 ~{{ Math.ceil(news.shortDetail.length / 200) }} min read
-                </span>
+                <!-- Status Badge -->
+                <div class="flex items-center gap-3">
+                  <span :class="[
+                    newsTypeClass.badge,
+                    'inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold shadow-lg'
+                  ]">
+                    <span class="text-base">{{ newsTypeClass.icon }}</span>
+                    {{ news.status }}
+                  </span>
+                </div>
               </div>
-            </div>
 
-            <!-- Description -->
-            <div class="text-gray-600 leading-relaxed text-base space-y-2">
-              <p class="line-clamp-3">{{ truncatedDetail }}</p>
+              <!-- Description -->
+              <div class="text-gray-600 leading-relaxed text-base space-y-2">
+                <p class="line-clamp-3">{{ truncatedDetail }}</p>
+              </div>
             </div>
 
             <!-- Reporter Info -->
