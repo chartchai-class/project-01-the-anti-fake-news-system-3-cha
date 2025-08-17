@@ -26,7 +26,7 @@ const statusConfig = computed(() => {
 </script>
 
 <template>
-
+  <article class="max-w-none space-y-8 animate-[fadeInUp_0.6s_ease-out_forwards]">
     <div class="text-center space-y-4">
       <!-- Status Badge -->
       <div class="flex justify-center">
@@ -192,4 +192,5 @@ const statusConfig = computed(() => {
         </div>
       </div>
     </section>
+  </article>
 </template>
