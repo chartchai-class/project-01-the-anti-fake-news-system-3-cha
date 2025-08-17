@@ -1,15 +1,30 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import NewsCard from '@/components/NewsCard.vue';
 import axios from 'axios';
 import type { New } from '@/types';
+import NProgress from 'nprogress';
 
+// State variables to hold the news data, current page, items per page limit, and filter.
 const newsList = ref<New[]>([]);
 const page = ref(1);
-const limit = ref<any>(null);
+const limit = ref<any>(null); // Default limit is null
 const filter = ref('all');
+const isLoading = ref(false); // New state variable for the loading spinner
 
-// Function to scroll the page to the top
+// Function to handle the start and end of the loading state.
+// This is used for both the NProgress bar and the local spinner.
+const startLoading = () => {
+  isLoading.value = true;
+  NProgress.start();
+};
+
+const stopLoading = () => {
+  isLoading.value = false;
+  NProgress.done();
+};
+
+// Function to scroll the page to the top smoothly.
 const scrollToTop = () => {
   window.scrollTo({
     top: 0,
@@ -17,18 +32,7 @@ const scrollToTop = () => {
   });
 };
 
-// Reset page to 1 and scroll to top when filter changes
-watch(filter, () => {
-  page.value = 1;
-  scrollToTop();
-});
-
-// Reset page to 1 and scroll to top when limit changes
-watch(limit, () => {
-  page.value = 1;
-  scrollToTop();
-});
-
+// Computed property to filter the news list based on the selected filter option.
 const filteredNews = computed(() => {
   if (filter.value === 'all') {
     return newsList.value;
@@ -42,22 +46,20 @@ const filteredNews = computed(() => {
   return newsList.value;
 });
 
+// Computed properties for display.
 const newsCount = computed(() => filteredNews.value.length);
 const filteredNewsCount = computed(() => {
   if (filter.value === 'fake news') {
     return 'Fake News';
   } else if (filter.value === 'real news') {
-    return 'Real News';
-  } else {
-    return 'All News';
+    return 'Not-Fake News';
   }
+  return 'All News';
 });
 
 const totalPages = computed(() => {
-  if (limit.value === null) {
-    return Math.ceil(filteredNews.value.length / 4);
-  }
-  return Math.ceil(filteredNews.value.length / Number(limit.value));
+  const currentLimit = limit.value === null ? 4 : Number(limit.value);
+  return Math.ceil(filteredNews.value.length / currentLimit);
 });
 
 const paginatedNews = computed(() => {
@@ -67,81 +69,193 @@ const paginatedNews = computed(() => {
   return filteredNews.value.slice(start, end);
 });
 
+// Function to fetch news data from the API.
 const fetchNews = async () => {
   try {
     const response = await axios.get('https://db-news-theta.vercel.app/api/news');
-    newsList.value = response.data; 
+    newsList.value = response.data;
   } catch (error) {
     console.error('Error fetching news:', error);
   }
 };
 
-fetchNews();
+// Watchers to trigger loading and scroll on changes.
+watch(filter, () => {
+  startLoading();
+  page.value = 1; // Reset to the first page when the filter changes
+  scrollToTop();
+  setTimeout(() => { stopLoading(); }, 300); // Simulate a brief loading time
+});
+
+watch(limit, () => {
+  startLoading();
+  page.value = 1; // Reset to the first page when the limit changes
+  scrollToTop();
+  setTimeout(() => { stopLoading(); }, 300); // Simulate a brief loading time
+});
+
+watch(page, () => {
+  startLoading();
+  scrollToTop();
+  setTimeout(() => { stopLoading(); }, 300); // Simulate a brief loading time
+});
+
+// Fetch news data when the component is first mounted.
+onMounted(() => {
+  fetchNews();
+});
 </script>
 
 <template>
-  <div class="container mx-auto p-4 max-w-4xl">
-    <div class="flex flex-col items-start text-sm font-sans mb-4">
-      <span class="mt-1 ml-5 text-gray-500">{{ filteredNewsCount }} ({{ newsCount }})</span>
-    </div>
+  <!-- Link to the NProgress CSS file. This is necessary to load the core styles. -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" />
 
-    <div class="flex justify-end mb-4 space-x-2">
-      <div class="relative inline-block text-left">
-        <select v-model="filter" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
-          <option value="all" disabled>Type</option>
-          <option value="all">All News</option>
-          <option value="fake news">Fake News</option>
-          <option value="real news">Real News</option>
-        </select>
+  <div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-green-300 relative">
+    <!-- Loading spinner in the top right corner, visible only when `isLoading` is true. -->
+
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+
+      <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2">
+              <div class="w-3 h-3 rounded-full bg-gradient-to-r from-[#19B917] to-green-600"></div>
+              <span class="text-lg font-semibold text-gray-800">{{ filteredNewsCount }}</span>
+              <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm font-medium">
+                {{ newsCount }} news
+              </span>
+            </div>
+          </div>
+
+          <div class="flex gap-3 w-full sm:w-auto">
+            <div class="relative flex-1 sm:flex-none ">
+              <select v-model="filter"
+                class="w-full sm:w-44 appearance-none bg-green-500 border-2 rounded-[50px] px-4 py-3 pr-8 text-white font-medium shadow-sm hover:border-[#19B917] focus:border-[#19B917] focus:ring-4 focus:ring-green-100 focus:outline-none transition-all duration-200">
+                <option value="all" class="text-gray-700 bg-white">All News</option>
+                <option value="fake news" class="text-gray-700 bg-white">Fake News </option>
+                <option value="real news" class="text-gray-700 bg-white">Not-Fake News </option>
+              </select>
+              <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </div>
+
+            <div class="relative flex-1 sm:flex-none">
+              <select v-model="limit"
+                class="w-full sm:w-48 appearance-none bg-green-500 border-2 rounded-[50px] px-4 py-3 pr-8 text-white font-medium shadow-sm hover:border-[#19B917] focus:border-[#19B917] focus:ring-4 focus:ring-green-100 focus:outline-none transition-all duration-200">
+                <option disabled selected value="null" class="text-gray-700 bg-white">News per page</option>
+                <option value="2" class="text-gray-700 bg-white">2 news per page</option>
+                <option value="4" class="text-gray-700 bg-white">4 news per page</option>
+                <option value="6" class="text-gray-700 bg-white">6 news per page</option>
+              </select>
+              <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="relative inline-block text-left">
-        <select v-model="limit" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
-          <option disabled selected value="null">Items per page</option>
-          <option value="2">2 news per page</option>
-          <option value="4">4 news per page</option>
-          <option value="6">6 news per page</option>
-        </select>
+      <div class="grid gap-6 mb-8">
+        <div v-if="paginatedNews.length === 0" class="col-span-full">
+          <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-12 text-center">
+            <div class="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+              <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">No news found</h3>
+            <p class="text-gray-500">Try adjusting your filter settings to see more results.</p>
+          </div>
+        </div>
+
+        <NewsCard
+          v-for="(news, index) in paginatedNews"
+          :key="news.id"
+          :news="news"
+          :class="[
+            'transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl',
+            // Use the new Tailwind animation utilities
+            'animate-fade-in-up',
+            { 'animation-delay-100': index % 2 === 1 }
+          ]"
+        />
       </div>
-    </div>
 
-    <div class="flex flex-col items-center">
-      <NewsCard 
-        v-for="news in paginatedNews" 
-        :key="news.id" 
-        :news="news" 
-      />
-    </div>
+      <div v-if="totalPages > 1" class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div class="text-gray-600 font-medium">
+            Page {{ page }} of {{ totalPages }}
+            <span class="text-gray-400">•</span>
+            Showing {{ paginatedNews.length }} of {{ newsCount }} News
+          </div>
 
-    <div class="flex justify-center items-center mt-6">
-      <div class="flex space-x-2 font-sans text-sm">
-        <button 
-          @click="page--; scrollToTop()" 
-          :disabled="page === 1" 
-          class="bg-gray-200 hover:bg-gray-300 py-1 px-3 rounded-md disabled:opacity-50"
-        >
-          &lt;&lt;
-        </button>
-        <button 
-          v-for="p in totalPages" 
-          :key="p" 
-          @click="page = p; scrollToTop()" 
-          :class="{
-            'bg-gray-200 hover:bg-gray-300': p !== page,
-            'bg-[#19B917] text-white': p === page
-          }"
-          class="py-1 px-3 rounded-md"
-        >
-          {{ p }}
-        </button>
-        <button 
-          @click="page++; scrollToTop()" 
-          :disabled="page === totalPages" 
-          class="bg-gray-200 hover:bg-gray-300 py-1 px-3 rounded-md disabled:opacity-50"
-        >
-          &gt;&gt;
-        </button>
+          <div class="flex items-center gap-2">
+            <button
+              @click="page--; scrollToTop()"
+              :disabled="page === 1"
+              class="group flex items-center gap-2 bg-gray-100 hover:bg-[#19B917] hover:text-white text-gray-700 font-medium py-2 px-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
+            >
+              <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+              </svg>
+              <span class="hidden sm:inline">Previous</span>
+            </button>
+
+            <div class="flex gap-1">
+              <template v-for="p in totalPages" :key="p">
+                <button
+                  v-if="p === 1 || p === totalPages || (p >= page - 2 && p <= page + 2)"
+                  @click="page = p; scrollToTop()"
+                  :class="{
+                    'bg-gradient-to-r from-[#19B917] to-green-600 text-white shadow-lg scale-110': p === page,
+                    'bg-gray-100 hover:bg-gray-200 text-gray-700': p !== page
+                  }"
+                  class="w-10 h-10 rounded-xl font-medium transition-all duration-200 hover:shadow-md transform hover:scale-105"
+                >
+                  {{ p }}
+                </button>
+                <span v-else-if="(p === page - 3 && page > 4) || (p === page + 3 && page < totalPages - 3)"
+                  class="flex items-center px-2 text-gray-400">
+                  ...
+                </span>
+              </template>
+            </div>
+
+            <button
+              @click="page++; scrollToTop()"
+              :disabled="page === totalPages"
+              class="group flex items-center gap-2 bg-gray-100 hover:bg-[#19B917] hover:text-white text-gray-700 font-medium py-2 px-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
+            >
+              <span class="hidden sm:inline">Next</span>
+              <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s ease-out forwards;
+}
+</style>
