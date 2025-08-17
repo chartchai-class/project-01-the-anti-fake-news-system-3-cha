@@ -4,6 +4,9 @@ import NewsCard from '@/components/NewsCard.vue';
 import axios from 'axios';
 import type { New } from '@/types';
 import NProgress from 'nprogress';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 // State variables to hold the news data, current page, items per page limit, and filter.
 const newsList = ref<New[]>([]);
@@ -11,6 +14,7 @@ const page = ref(1);
 const limit = ref<any>(null); // Default limit is null
 const filter = ref('all');
 const isLoading = ref(false); // New state variable for the loading spinner
+const animationKey = ref(0); // A new key to force animation re-render
 
 // Function to handle the start and end of the loading state.
 // This is used for both the NProgress bar and the local spinner.
@@ -76,6 +80,8 @@ const fetchNews = async () => {
     newsList.value = response.data;
   } catch (error) {
     console.error('Error fetching news:', error);
+    // Use the router to navigate to the NetworkErrorView on error
+    router.push({ name: 'network-error', query: { message: error.message } });
   }
 };
 
@@ -84,6 +90,7 @@ watch(filter, () => {
   startLoading();
   page.value = 1; // Reset to the first page when the filter changes
   scrollToTop();
+  animationKey.value++; // Increment key to force animation re-render
   setTimeout(() => { stopLoading(); }, 300); // Simulate a brief loading time
 });
 
@@ -91,6 +98,7 @@ watch(limit, () => {
   startLoading();
   page.value = 1; // Reset to the first page when the limit changes
   scrollToTop();
+  animationKey.value++; // Increment key to force animation re-render
   setTimeout(() => { stopLoading(); }, 300); // Simulate a brief loading time
 });
 
@@ -175,7 +183,7 @@ onMounted(() => {
 
         <NewsCard
           v-for="(news, index) in paginatedNews"
-          :key="news.id"
+          :key="news.id + '-' + animationKey"
           :news="news"
           :class="[
             'transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl',
