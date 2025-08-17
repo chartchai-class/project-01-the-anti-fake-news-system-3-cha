@@ -114,5 +114,46 @@ const statusConfig = computed(() => {
       </div>
     </section>
     <!-- full details -->
-    <p class="text-[18px] text-justify">{{ news.fullDetail }}</p>
+    <section class="max-w-none">
+      <div class="bg-white rounded-3xl shadow-lg p-8 md:p-12 border border-gray-100">
+        <div class="space-y-6">
+          <div class="text-gray-800 text-lg leading-loose space-y-6 text-justify">
+            <template v-for="(paragraph, index) in news.fullDetail.split('\n\n')" :key="index">
+              <p v-if="paragraph.trim()">
+                {{ paragraph.trim() }}
+              </p>
+            </template>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-12 pt-8 border-t-2 border-gray-100">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-gradient-to-r from-[#19B917] to-green-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                {{ news.reporter.charAt(0).toUpperCase() }}
+              </div>
+              <div>
+                <h5 class="font-bold text-gray-900">{{ news.reporter }}</h5>
+                <p class="text-sm text-gray-600">News Reporter</p>
+              </div>
+            </div>
+            <div class="text-right text-sm text-gray-600 space-y-1">
+              <div class="flex items-center gap-2 justify-end">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                </svg>
+                <span>Published: {{ news.date }}</span>
+              </div>
+              <div class="flex items-center gap-2 justify-end">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                </svg>
+                <span>Time: {{ news.time }}</span>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </section>
 </template>
