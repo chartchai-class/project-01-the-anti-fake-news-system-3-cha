@@ -8,6 +8,9 @@ export const useNewsStore = defineStore('news', {
   actions: {
     setNews(news: New) {
       this.news = news;
+    },
+    getNews() {
+      return this.news
     }
   }
 });
