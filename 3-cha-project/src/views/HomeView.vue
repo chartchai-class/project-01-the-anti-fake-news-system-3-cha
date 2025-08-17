@@ -99,9 +99,9 @@ fetchNews();
             <div class="relative flex-1 sm:flex-none ">
               <select v-model="filter" 
                 class="w-full sm:w-44 appearance-none bg-green-500 border-2  rounded-[50px] px-4 py-3 pr-8 text-white font-medium shadow-sm hover:border-[#19B917] focus:border-[#19B917] focus:ring-4 focus:ring-green-100 focus:outline-none transition-all duration-200">
-                <option value="all" class="bg-white">All News</option>
-                <option value="fake news" class="bg-white">Fake News </option>
-                <option value="real news" class="bg-white">Not-Fake News </option>
+                <option value="all" class="text-gray-700 bg-white">All News</option>
+                <option value="fake news" class="text-gray-700 bg-white">Fake News </option>
+                <option value="real news" class="text-gray-700 bg-white">Not-Fake News </option>
               </select>
               <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                 <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
