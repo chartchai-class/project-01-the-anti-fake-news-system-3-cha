@@ -83,10 +83,8 @@ fetchNews();
   <div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-green-300">
     <div class="container mx-auto px-4 py-8 max-w-6xl">
 
-      <!-- Filter Section -->
       <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <!-- Header Display -->
           <div class="flex items-center gap-3">
             <div class="flex items-center gap-2">
               <div class="w-3 h-3 rounded-full bg-gradient-to-r from-[#19B917] to-green-600"></div>
@@ -97,9 +95,7 @@ fetchNews();
             </div>
           </div>
 
-          <!-- Filter Controls -->
           <div class="flex gap-3 w-full sm:w-auto">
-            <!-- News Types -->
             <div class="relative flex-1 sm:flex-none ">
               <select v-model="filter" 
                 class="w-full sm:w-44 appearance-none bg-green-500 border-2  rounded-[50px] px-4 py-3 pr-8 text-white font-medium shadow-sm hover:border-[#19B917] focus:border-[#19B917] focus:ring-4 focus:ring-green-100 focus:outline-none transition-all duration-200">
@@ -114,17 +110,16 @@ fetchNews();
               </div>
             </div>
 
-            <!-- Items Per Page -->
             <div class="relative flex-1 sm:flex-none">
               <select v-model="limit" 
-                class="w-full sm:w-48 appearance-none bg-white border-2 border-gray-200 rounded-xl px-4 py-3 pr-8 text-gray-700 font-medium shadow-sm hover:border-[#19B917] focus:border-[#19B917] focus:ring-4 focus:ring-green-100 focus:outline-none transition-all duration-200">
-                <option disabled selected value="null">📄 Items per page</option>
-                <option value="2">2 articles per page</option>
-                <option value="4">4 articles per page</option>
-                <option value="6">6 articles per page</option>
+                class="w-full sm:w-48 appearance-none bg-green-500 border-2 rounded-[50px] px-4 py-3 pr-8 text-white font-medium shadow-sm hover:border-[#19B917] focus:border-[#19B917] focus:ring-4 focus:ring-green-100 focus:outline-none transition-all duration-200">
+                <option disabled selected value="null" class="text-gray-700 bg-white">📄 Article per page</option>
+                <option value="2" class="text-gray-700 bg-white">2 articles per page</option>
+                <option value="4" class="text-gray-700 bg-white">4 articles per page</option>
+                <option value="6" class="text-gray-700 bg-white">6 articles per page</option>
               </select>
               <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
               </div>
@@ -133,7 +128,6 @@ fetchNews();
         </div>
       </div>
 
-      <!-- News Grid -->
       <div class="grid gap-6 mb-8">
         <div v-if="paginatedNews.length === 0" class="col-span-full">
           <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-12 text-center">
@@ -159,19 +153,15 @@ fetchNews();
         />
       </div>
 
-      <!-- Enhanced Pagination -->
       <div v-if="totalPages > 1" class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
         <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
-          <!-- Page Info -->
           <div class="text-gray-600 font-medium">
             Page {{ page }} of {{ totalPages }}
             <span class="text-gray-400">•</span>
             Showing {{ paginatedNews.length }} of {{ newsCount }} articles
           </div>
 
-          <!-- Pagination Controls -->
           <div class="flex items-center gap-2">
-            <!-- Previous Button -->
             <button 
               @click="page--; scrollToTop()" 
               :disabled="page === 1" 
@@ -183,7 +173,6 @@ fetchNews();
               <span class="hidden sm:inline">Previous</span>
             </button>
 
-            <!-- Page Numbers -->
             <div class="flex gap-1">
               <template v-for="p in totalPages" :key="p">
                 <button 
@@ -204,7 +193,6 @@ fetchNews();
               </template>
             </div>
 
-            <!-- Next Button -->
             <button 
               @click="page++; scrollToTop()" 
               :disabled="page === totalPages" 
