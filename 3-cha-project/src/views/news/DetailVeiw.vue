@@ -96,9 +96,23 @@ const statusConfig = computed(() => {
     </header>
 
     <!-- image news -->
-    <div class=" text-center m-[100px] mt-[50px] mb-[50px]" >
-        <img :src="news.imageLink" :alt="news.topic" class="w-[1000px] h-[700px] text-center rounded-md object-cover" />
-    </div>
+    <section class="mb-12">
+      <div class="relative group">
+        <div class="overflow-hidden rounded-3xl shadow-2xl bg-gray-100">
+          <img 
+            :src="news.imageLink" 
+            :alt="news.topic" 
+            class="w-full h-[70vh] object-cover transition-transform duration-700 group-hover:scale-105"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            <p class="text-sm font-medium">{{ news.topic }}</p>
+            <p class="text-xs opacity-80 mt-1">Photo related to the article content</p>
+          </div>
+        </div>
+      </div>
+    </section>
     <!-- full details -->
     <p class="text-[18px] text-justify">{{ news.fullDetail }}</p>
 </template>
