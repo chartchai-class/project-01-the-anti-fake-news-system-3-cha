@@ -58,9 +58,9 @@ const isFakeNews = computed(() => props.news.status.toLowerCase() === 'fake news
             <!-- Title and Description container -->
             <div class="space-y-4 flex-grow">
               
-              <!-- Title -->
+              <!-- Title - removed line-clamp-2 to prevent text cutoff -->
               <div class="space-y-3">
-                <h2 class="text-xl lg:text-4xl font-bold text-gray-900 leading-tight group-hover:text-gray-700 transition-colors duration-200 line-clamp-2">
+                <h2 class="text-xl lg:text-4xl font-bold text-gray-900 leading-tight group-hover:text-gray-700 transition-colors duration-200">
                   {{ news.topic }}
                 </h2>
                 
@@ -76,9 +76,9 @@ const isFakeNews = computed(() => props.news.status.toLowerCase() === 'fake news
                 </div>
               </div>
 
-              <!-- Description -->
-              <div class="text-gray-600 leading-relaxed text-base space-y-2">
-                <p class="line-clamp-3">{{ truncatedDetail }}</p>
+              <!-- Description - changed font size and removed line-clamp-3 -->
+              <div class="text-gray-600 leading-relaxed text-2xl space-y-2">
+                <p>{{ truncatedDetail }}</p>
               </div>
             </div>
 
