@@ -67,7 +67,7 @@ const { messages } = storeToRefs(messageStore)
     </header>
 
     <!-- Home Button -->
-    <nav class="bg-white shadow-lg border-b border-gray-100 sticky top-0 z-40 backdrop-blur-sm bg-white/95">
+    <nav class="bg-white shadow-lg border-b border-gray-100 sticky z-40 backdrop-blur-sm bg-white/95">
       <div class="container mx-auto px-4 py-4">
         <div class="flex justify-center">
           <RouterLink 
