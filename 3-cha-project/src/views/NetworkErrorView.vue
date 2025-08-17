@@ -1,12 +1,12 @@
 <template>
   <main class="min-h-[60vh] grid place-items-center px-6 py-16 text-center">
-    <div class="space-y-6 max-w-xl">
-      <div class="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs">
-        <span class="inline-block h-2 w-2 rounded-full animate-pulse"></span>
+    <div class="space-y-4 max-w-xl -mt-16">
+      <div class="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm md:text-base">
+        <span class="inline-block h-4 w-4 rounded-full animate-pulse bg-red-500"></span>
         Network Error
       </div>
 
-      <h1 class="text-2xl md:text-3xl font-semibold">
+      <h1 class="text-3xl md:text-4xl font-bold">
         Unable to connect to the server
       </h1>
       <p class="text-sm text-gray-500">
