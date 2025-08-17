@@ -47,7 +47,7 @@ const filteredNewsCount = computed(() => {
   if (filter.value === 'fake news') {
     return 'Fake News';
   } else if (filter.value === 'real news') {
-    return 'Real News';
+    return 'Not-Fake News';
   } else {
     return 'All News';
   }
@@ -113,7 +113,7 @@ fetchNews();
             <div class="relative flex-1 sm:flex-none">
               <select v-model="limit" 
                 class="w-full sm:w-48 appearance-none bg-green-500 border-2 rounded-[50px] px-4 py-3 pr-8 text-white font-medium shadow-sm hover:border-[#19B917] focus:border-[#19B917] focus:ring-4 focus:ring-green-100 focus:outline-none transition-all duration-200">
-                <option disabled selected value="null" class="text-gray-700 bg-white">📄 Article per page</option>
+                <option disabled selected value="null" class="text-gray-700 bg-white">Articles per page</option>
                 <option value="2" class="text-gray-700 bg-white">2 articles per page</option>
                 <option value="4" class="text-gray-700 bg-white">4 articles per page</option>
                 <option value="6" class="text-gray-700 bg-white">6 articles per page</option>
