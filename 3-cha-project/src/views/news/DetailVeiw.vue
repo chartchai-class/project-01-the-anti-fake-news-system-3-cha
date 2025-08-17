@@ -66,6 +66,34 @@ const statusConfig = computed(() => {
         </div>
       </div>
     </div>
+    
+    <!-- Verification Status -->
+    <header class="text-center space-y-6 mb-12">
+      <div :class="[
+        'mx-auto p-6 rounded-2xl border-2 shadow-lg mt-10',
+        `bg-gradient-to-r ${statusConfig.bgGradient}`,
+        statusConfig.borderColor
+      ]">
+        <div class="flex items-center justify-center gap-4">
+          <div :class="[
+            'w-[60px] h-[60px] rounded-full flex items-center justify-center text-4xl shadow-lg',
+            `bg-gradient-to-r ${statusConfig.badgeGradient} text-white`
+          ]">
+            {{ statusConfig.icon }}
+          </div>
+          <div class="text-center">
+            <h3 :class="['text-[22px] font-bold', statusConfig.textColor]">
+              Verification Status: {{ news.status }}
+            </h3>
+            <p :class="['text-[15px] opacity-80', statusConfig.textColor]">
+              {{ news.status.toLowerCase() === 'fake news' 
+                ? 'This content has been flagged as potentially misleading' 
+                : 'This content has been verified as authentic' }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </header>
 
     <!-- image news -->
     <div class=" text-center m-[100px] mt-[50px] mb-[50px]" >
