@@ -60,7 +60,7 @@ const isFakeNews = computed(() => props.news.status.toLowerCase() === 'fake news
               
               <!-- Title -->
               <div class="space-y-3">
-                <h2 class="text-xl lg:text-2xl font-bold text-gray-900 leading-tight group-hover:text-gray-700 transition-colors duration-200 line-clamp-2">
+                <h2 class="text-xl lg:text-4xl font-bold text-gray-900 leading-tight group-hover:text-gray-700 transition-colors duration-200 line-clamp-2">
                   {{ news.topic }}
                 </h2>
                 
