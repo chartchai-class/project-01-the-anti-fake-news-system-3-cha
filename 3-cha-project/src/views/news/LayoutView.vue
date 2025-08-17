@@ -10,9 +10,11 @@ const { news } = storeToRefs(store)
 <template>
     <div v-if="news">
         <nav>
-            <RouterLink :to="{ name: 'news-detail-view' }">Details</RouterLink> 
+            <RouterLink :to="{ name: 'news-detail-view' }">Details</RouterLink>
             |
             <RouterLink :to="{ name: 'news-vote-view' }">Vote</RouterLink>
+            |
+            <RouterLink :to="{ name: 'news-comment-list-view' }">Comments</RouterLink>
         </nav>
         <RouterView v-if="news" :news="news" />
     </div>

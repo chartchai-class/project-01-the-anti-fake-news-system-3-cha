@@ -7,6 +7,7 @@ import NotFoundView from '@/views/NotFoundView.vue'
 import NetworkErrorView from '@/views/NetworkErrorView.vue'
 import nProgress from 'nprogress'
 import NewsService from '@/services/NewsService'
+import CommentListView from '@/views/news/CommentListView.vue'
 import { useNewsStore } from '@/stores/new'
 
 const router = createRouter({
@@ -50,6 +51,12 @@ const router = createRouter({
           path: "/news/:id/vote",
            name: 'news-vote-view',
           component: NewsVoteView,
+          props: true
+        },
+        {
+          path: "/news/:id/comments",
+          name: 'news-comment-list-view',
+          component: CommentListView,
           props: true
         }
       ]
