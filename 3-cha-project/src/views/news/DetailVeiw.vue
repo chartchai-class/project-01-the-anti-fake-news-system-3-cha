@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { toRefs} from 'vue'
 import { type New } from '@/types'
-import VoteResultCard from '@/components/VoteResultCard.vue'
 
 const props = defineProps<{
   news: New
@@ -20,8 +19,5 @@ const { news } = toRefs(props)
     </div>
     <p class="text-[18px] text-justify">{{ news.fullDetail }}</p>
 
-    <div class="mt-10 flex justify-center">
-      <VoteResultCard :votes="{ fake: news.votesFake, notFake: news.votesNotFake }" />
-    </div>
   </div>
 </template>
