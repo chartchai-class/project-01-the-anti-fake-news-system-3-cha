@@ -11,7 +11,7 @@ const router = useRouter();
 // State variables to hold the news data, current page, items per page limit, and filter.
 const newsList = ref<New[]>([]);
 const page = ref(1);
-const limit = ref<any>(null); // Default limit is null
+const limit = ref<number | null>(null);
 const filter = ref('all');
 const isLoading = ref(false); // New state variable for the loading spinner
 const animationKey = ref(0); // A new key to force animation re-render
@@ -76,12 +76,25 @@ const paginatedNews = computed(() => {
 // Function to fetch news data from the API.
 const fetchNews = async () => {
   try {
-    const response = await axios.get('https://db-news-theta.vercel.app/api/news');
+    const response = await axios.get<New[]>('https://db-news-theta.vercel.app/api/news');
     newsList.value = response.data;
-  } catch (error) {
-    console.error('Error fetching news:', error);
-    // Use the router to navigate to the NetworkErrorView on error
-    router.push({ name: 'network-error', query: { message: error.message } });
+  } catch (err: unknown) {
+    // Narrow the error safely (works for generic errors and Axios errors)
+    let message = 'Unknown error';
+    if (axios.isAxiosError(err)) {
+      const status = err.response?.status;
+      const data = err.response?.data;
+      message = status
+        ? `Request failed with status ${status}${data ? `: ${JSON.stringify(data)}` : ''}`
+        : (err.message ?? 'Network error');
+    } else if (err instanceof Error) {
+      message = err.message;
+    } else if (typeof err === 'string') {
+      message = err;
+    }
+
+    console.error('Error fetching news:', err);
+    router.push({ name: 'network-error', query: { message } });
   }
 };
 
