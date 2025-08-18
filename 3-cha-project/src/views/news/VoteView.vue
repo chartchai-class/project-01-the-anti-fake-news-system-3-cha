@@ -22,7 +22,10 @@ const canSubmit = computed(
 )
 
 async function onSubmit() {
-  if (!canSubmit.value) return
+  if (!canSubmit.value) {
+    messageStore.updateMessages('Please select your voting option and fill in your name before submitting.')
+    return
+  }
 
   isSubmitting.value = true
 
