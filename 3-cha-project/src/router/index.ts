@@ -1,0 +1,97 @@
+import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '@/views/HomeView.vue'
+import NewsDetailView from '@/views/news/DetailVeiw.vue'
+import NewsVoteView from '@/views/news/VoteView.vue'
+import NewsLayoutView from '@/views/news/LayoutView.vue'
+import NotFoundView from '@/views/NotFoundView.vue'
+import NetworkErrorView from '@/views/NetworkErrorView.vue'
+import nProgress from 'nprogress'
+import NewsService from '@/services/NewsService'
+import CommentListView from '@/views/news/CommentListView.vue'
+import { useNewsStore } from '@/stores/new'
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/',
+      name: 'home-view',
+      component: HomeView
+    },
+    {
+      path: '/news/:id',
+      name: 'news-layout-view',
+      component: NewsLayoutView,
+      props: true,
+      beforeEnter: (to) => {
+        const id = parseInt(to.params.id as string)
+        const newsStore = useNewsStore()
+        return NewsService.getNew(id)
+          .then(response => {
+            newsStore.setNews(response.data)
+          }).catch(error => {
+            if (error.response && error.response.status === 404) {
+              return {
+                name: '404-resource-view',
+                params: { resource: 'news' }
+              }
+            } else {
+              return { name: 'network-error-view' }
+            }
+          })
+      },
+      children: [
+        {
+          path: '',
+          name: 'news-detail-view',
+          component: NewsDetailView,
+          props: true
+        },
+        {
+          path: "/news/:id/vote",
+           name: 'news-vote-view',
+          component: NewsVoteView,
+          props: true
+        },
+        {
+          path: "/news/:id/comments",
+          name: 'news-comment-list-view',
+          component: CommentListView,
+          props: true
+        }
+      ]
+    },
+    {
+      path: '/404/:resource',
+      name: '404-resource-view',
+      component: NotFoundView,
+      props: true
+    },
+    {
+      path: '/:catchAll(.*)',
+      name: 'not-found',
+      component: NotFoundView
+    }, {
+      path: '/network-error',
+      name: 'network-error-view',
+      component: NetworkErrorView
+    },
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { top: 0 }
+    }
+  }
+})
+
+router.beforeEach(() => {
+  nProgress.start()
+})
+
+router.afterEach(() => {
+  nProgress.done()
+})
+
+export default router
