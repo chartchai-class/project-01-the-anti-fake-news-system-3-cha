@@ -9,12 +9,19 @@ const { messages } = storeToRefs(messageStore)
 
 <template>
   <SpeedInsights/>
-  <!-- Enhanced Toast Notification -->
+  <Transition
+  enter-active-class="animate-fadeInUp"
+  leave-active-class="animate-fadeOutDown"
+>
   <div v-if="messages"
-    class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-gradient-to-r from-green-500 to-green-600 text-white border-0 px-6 py-4 rounded-2xl shadow-2xl animate-slide-down flex items-center gap-4 max-w-[500px] w-full mx-4 backdrop-blur-sm">
+    class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50
+           bg-gradient-to-r from-yellow-500 to-yellow-600 text-white border-0
+           px-6 py-4 rounded-2xl shadow-2xl animate-slide-down
+           flex items-center gap-4 max-w-[500px] w-full mx-4 backdrop-blur-sm">
+
     <!-- Success Icon with Animation -->
     <div class="flex-shrink-0 w-8 h-8 bg-white/20 rounded-full flex items-center justify-center animate-bounce">
-      <svg width="18px" height="18px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+      <svg width="18px" height="18px" viewBox="0 0 1024 1024" fill="currentColor">
         <path d="M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896zm-55.808 536.384-99.52-99.584a38.4 38.4 0 1 0-54.336 54.336l126.72 126.72a38.272 38.272 0 0 0 54.336 0l262.4-262.464a38.4 38.4 0 1 0-54.272-54.336L456.192 600.384z"/>
       </svg>
     </div>
@@ -32,6 +39,7 @@ const { messages } = storeToRefs(messageStore)
       </svg>
     </button>
   </div>
+</Transition>
 
   <!-- App Container -->
   <div>
