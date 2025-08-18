@@ -3,12 +3,14 @@ import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useVotesStore } from '@/stores/votes'
 import VoteResultCard from '@/components/VoteResultCard.vue'
+import { useMessageStore } from '@/stores/message'
 
 type Choice = 'not_fake' | 'fake'
 const route = useRoute()
 const router = useRouter()
 const newsId = String(route.params.id ?? '')
 const votes = useVotesStore()
+const messageStore = useMessageStore()
 
 const choice = ref<Choice | ''>('')
 const name = ref('')
