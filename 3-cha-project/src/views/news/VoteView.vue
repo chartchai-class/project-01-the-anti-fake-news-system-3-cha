@@ -40,6 +40,8 @@ async function onSubmit() {
       createdAt: new Date().toISOString(),
     })
 
+    messageStore.updateMessages('Voting successful! Thank you 🙌')
+
     router.push({ name: 'news-comment-list-view', params: { id: newsId } })
 
     choice.value = ''
