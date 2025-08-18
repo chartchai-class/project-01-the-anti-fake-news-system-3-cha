@@ -2,14 +2,15 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { useMessageStore } from '@/stores/message';
 import { storeToRefs } from 'pinia'
-
+import { SpeedInsights } from "@vercel/speed-insights/vue"
 const messageStore = useMessageStore()
 const { messages } = storeToRefs(messageStore)
 </script>
 
 <template>
+  <SpeedInsights/>
   <!-- Enhanced Toast Notification -->
-  <div v-if="messages" 
+  <div v-if="messages"
     class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-gradient-to-r from-green-500 to-green-600 text-white border-0 px-6 py-4 rounded-2xl shadow-2xl animate-slide-down flex items-center gap-4 max-w-[500px] w-full mx-4 backdrop-blur-sm">
     <!-- Success Icon with Animation -->
     <div class="flex-shrink-0 w-8 h-8 bg-white/20 rounded-full flex items-center justify-center animate-bounce">
@@ -17,14 +18,14 @@ const { messages } = storeToRefs(messageStore)
         <path d="M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896zm-55.808 536.384-99.52-99.584a38.4 38.4 0 1 0-54.336 54.336l126.72 126.72a38.272 38.272 0 0 0 54.336 0l262.4-262.464a38.4 38.4 0 1 0-54.272-54.336L456.192 600.384z"/>
       </svg>
     </div>
-    
+
     <!-- Message Text -->
     <div class="flex-1 font-medium leading-relaxed">
       {{ messages }}
     </div>
 
     <!-- Enhanced Close Button -->
-    <button @click="messageStore.resetMessages()" 
+    <button @click="messageStore.resetMessages()"
       class="flex-shrink-0 w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 group">
       <svg class="w-4 h-4 transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
@@ -36,7 +37,7 @@ const { messages } = storeToRefs(messageStore)
   <div>
     <!-- Header-->
     <header class="relative overflow-hidden bg-gradient-to-r from-[#19B917] via-green-600 to-emerald-600 shadow-2xl">
-      
+
       <div class="container mx-auto px-4 py-12 relative">
         <div class="text-center">
           <!-- Title : Anti-Fake News -->
@@ -48,19 +49,19 @@ const { messages } = storeToRefs(messageStore)
               News
             </span>
           </h1>
-          
+
           <!-- Subtitle -->
           <p class="text-xl md:text-2xl text-green-100 font-medium mb-8 animate-fade-in-up animation-delay-200">
             Website to help check fake news By Voting
           </p>
-          
+
         </div>
       </div>
 
       <!-- logo -->
       <div class="absolute bottom-0 left-0 right-0">
         <svg class="w-full h-6 md:h-12" viewBox="0 0 1200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1200,160,1248,128,1296,112L1344,96L1344,200L1296,200C1248,200,1152,200,1056,200C960,200,864,200,768,200C672,200,576,200,480,200C384,200,288,200,192,200C96,200,48,200,24,200L0,200Z" 
+          <path d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1200,160,1248,128,1296,112L1344,96L1344,200L1296,200C1248,200,1152,200,1056,200C960,200,864,200,768,200C672,200,576,200,480,200C384,200,288,200,192,200C96,200,48,200,24,200L0,200Z"
             fill="rgb(249 250 251)"/>
         </svg>
       </div>
@@ -70,9 +71,9 @@ const { messages } = storeToRefs(messageStore)
     <nav class="bg-white shadow-lg border-b border-gray-100 sticky z-40 backdrop-blur-sm bg-white/95">
       <div class="container mx-auto px-4 py-4">
         <div class="flex justify-center">
-          <RouterLink 
-            :to="{name: 'home-view'}" 
-            exact-active-class="text-[#19B917] bg-green-50 scale-105" 
+          <RouterLink
+            :to="{name: 'home-view'}"
+            exact-active-class="text-[#19B917] bg-green-50 scale-105"
             class="group flex items-center gap-3 px-6 py-3 rounded-2xl font-bold text-gray-700 hover:text-[#19B917] hover:bg-green-50 transition-all duration-300 hover:scale-105 transform hover:shadow-md"
           >
             <!-- Home Icon -->
@@ -83,11 +84,11 @@ const { messages } = storeToRefs(messageStore)
               <!-- Home Icon effect -->
               <div class="absolute inset-0 rounded-full bg-[#19B917] opacity-0 group-hover:opacity-20 scale-150 transition-opacity duration-300"></div>
             </div>
-            
+
             <span class="text-lg">Home</span>
-            
+
             <!-- Arrow indicator -->
-            <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-300" 
+            <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-300"
               fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
             </svg>
@@ -95,7 +96,7 @@ const { messages } = storeToRefs(messageStore)
         </div>
       </div>
     </nav>
-    
+
     <!-- show all news -->
     <main class="relative">
       <RouterView />
