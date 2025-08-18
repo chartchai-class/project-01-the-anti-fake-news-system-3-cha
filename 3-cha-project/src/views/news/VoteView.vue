@@ -41,6 +41,7 @@ async function onSubmit() {
     })
 
     messageStore.updateMessages('Voting successful! Thank you 🙌')
+    setTimeout(() => messageStore.resetMessages(), 3000)
 
     router.push({ name: 'news-comment-list-view', params: { id: newsId } })
 
