@@ -89,12 +89,12 @@ const getVoteStyle = (vote: string) => {
 
 
 
-    <!-- Image Attachment -->
+      <!-- Image Attachment -->
     <div v-if="props.imageUrl" class="mb-2">
       <div class="relative overflow-hidden rounded-lg border border-gray-200 bg-gray-100 group/image">
         <img
           :src="props.imageUrl"
-          class="w-full max-h-48 object-cover transition-transform duration-300 group-hover/image:scale-105"
+          class="max-w-md w-full h-auto object-contain mx-auto"
           alt="User attachment"
         />
         <!-- Image Overlay -->
