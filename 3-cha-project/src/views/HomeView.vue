@@ -4,9 +4,10 @@ import NewsCard from '@/components/NewsCard.vue';
 import axios from 'axios';
 import type { New } from '@/types';
 import NProgress from 'nprogress';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter();
+const route = useRoute();
 
 // State variables to hold the news data, current page, items per page limit, and filter.
 const newsList = ref<New[]>([]);
@@ -107,24 +108,43 @@ watch(filter, () => {
   setTimeout(() => { stopLoading(); }, 300); // Simulate a brief loading time
 });
 
-watch(limit, () => {
+watch(limit, (newLimit) => {
   startLoading();
-  page.value = 1; // Reset to the first page when the limit changes
+  page.value = 1;
+  router.replace({
+    query: {
+      ...route.query,
+      page: String(page.value),
+      limit: String(newLimit),
+    },
+  });
   scrollToTop();
-  animationKey.value++; // Increment key to force animation re-render
-  setTimeout(() => { stopLoading(); }, 300); // Simulate a brief loading time
+  animationKey.value++;
+  setTimeout(() => { stopLoading(); }, 300);
 });
 
-watch(page, () => {
+watch(page, (newPage) => {
   startLoading();
+  router.replace({
+    query: {
+      ...route.query,
+      page: String(newPage),
+      limit: String(limit.value ?? 4),
+    },
+  });
   scrollToTop();
-  setTimeout(() => { stopLoading(); }, 300); // Simulate a brief loading time
+  setTimeout(() => { stopLoading(); }, 300);
 });
+
 
 // Fetch news data when the component is first mounted.
 onMounted(() => {
+  const query = route.query;
+  if (query.page) page.value = Number(query.page);
+  if (query.limit) limit.value = Number(query.limit);
   fetchNews();
 });
+
 </script>
 
 <template>
