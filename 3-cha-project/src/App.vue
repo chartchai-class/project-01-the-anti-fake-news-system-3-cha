@@ -2,15 +2,39 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { useMessageStore } from '@/stores/message';
 import { storeToRefs } from 'pinia'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { SpeedInsights } from "@vercel/speed-insights/vue"
+
 const messageStore = useMessageStore()
 const { messages } = storeToRefs(messageStore)
+
+// Go to top functionality
+const showGoToTop = ref(false)
+
+const handleScroll = () => {
+  showGoToTop.value = window.scrollY > 300
+}
+
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
 
 <template>
   <SpeedInsights/>
   <Transition
-  enter-active-class="animate-fadeInUp"
+  enter-active-class="animate-fade-in-up"
   leave-active-class="animate-fadeOutDown"
 >
   <div v-if="messages"
@@ -40,6 +64,44 @@ const { messages } = storeToRefs(messageStore)
     </button>
   </div>
 </Transition>
+
+<!-- Go to Top Button -->
+<Transition
+    enter-active-class="transition-all duration-300 ease-out"
+    enter-from-class="opacity-0 translate-y-4 scale-90"
+    enter-to-class="opacity-100 translate-y-0 scale-100"
+    leave-active-class="transition-all duration-200 ease-in"
+    leave-from-class="opacity-100 translate-y-0 scale-100"
+    leave-to-class="opacity-0 translate-y-4 scale-90"
+  >
+    <button
+      v-show="showGoToTop"
+      @click="scrollToTop"
+      class="fixed bottom-6 right-6 z-40 
+             w-12 h-12 bg-gradient-to-r from-[#19B917] to-green-600 
+             text-white rounded-full shadow-2xl 
+             flex items-center justify-center
+             hover:scale-110 hover:shadow-xl
+             active:scale-95
+             transition-all duration-300 ease-out
+             group cursor-pointer
+             backdrop-blur-sm border border-white/10"
+    >
+      <!-- Arrow Up Icon -->
+      <svg 
+        class="w-6 h-6 transition-transform duration-300 group-hover:-translate-y-0.5 group-active:translate-y-0" 
+        fill="none" 
+        stroke="currentColor" 
+        stroke-width="2.5" 
+        viewBox="0 0 24 24"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+      </svg>
+      
+      <!-- Hover Effect Ring -->
+      <div class="absolute inset-0 rounded-full bg-white/10 scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+    </button>
+  </Transition>
 
   <!-- App Container -->
   <div>
