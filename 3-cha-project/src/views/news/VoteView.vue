@@ -276,30 +276,3 @@ async function onSubmit() {
     </div>
   </div>
 </template>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-/* Custom scrollbar for webkit browsers */
-textarea::-webkit-scrollbar {
-  width: 6px;
-}
-textarea::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
-}
-textarea::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 10px;
-}
-textarea::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
-}
-</style>

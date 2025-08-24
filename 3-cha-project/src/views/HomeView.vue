@@ -17,8 +17,7 @@ const filter = ref('all');
 const isLoading = ref(false); // New state variable for the loading spinner
 const animationKey = ref(0); // A new key to force animation re-render
 
-// Function to handle the start and end of the loading state.
-// This is used for both the NProgress bar and the local spinner.
+// Function to handle the start and end of the loading state. nprogress is used for the top loading bar.
 const startLoading = () => {
   isLoading.value = true;
   NProgress.start();
@@ -220,9 +219,8 @@ onMounted(() => {
           :news="news"
           :class="[
             'transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl',
-            // Use the new Tailwind animation utilities
-            'animate-fade-in-up',
-            { 'animation-delay-100': index % 2 === 1 }
+            'animate-fade-in-up opacity-0',
+            { 'delay-100': index % 2 === 1 }
           ]"
         />
       </div>
@@ -283,20 +281,3 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
-<style scoped>
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in-up {
-  animation: fade-in-up 0.8s ease-out forwards;
-}
-</style>
