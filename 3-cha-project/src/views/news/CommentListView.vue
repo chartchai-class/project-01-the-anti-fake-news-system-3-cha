@@ -4,16 +4,20 @@ import { useVotesStore } from "@/stores/votes"
 import { useRoute } from "vue-router"
 import CommentCard from "@/components/CommentCard.vue"
 import VoteResultCard from "@/components/VoteResultCard.vue";
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 const route = useRoute()
 const newsId = String(route.params.id ?? "")
 const votes = useVotesStore()
 const summary = computed(() => votes.summary(newsId))
 const totalComments = computed(() => summary.value.comments.length)
+const commentsSection = ref<HTMLElement | null>(null)
 
 const currentPage = ref(1)
 const commentsPerPage = 3
 const totalPages = computed(() => Math.ceil(totalComments.value / commentsPerPage))
+
 
 const paginatedComments = computed(() => {
   const start = (currentPage.value - 1) * commentsPerPage
@@ -23,8 +27,18 @@ const paginatedComments = computed(() => {
 
 const goToPage = (page: number) => {
   if (page >= 1 && page <= totalPages.value) {
+    NProgress.start()
     currentPage.value = page
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+
+    if (commentsSection.value) {
+      commentsSection.value.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
+     setTimeout(() => {
+      NProgress.done()
+    }, 300)
   }
 }
 
@@ -40,7 +54,7 @@ const nextPage = () => goToPage(currentPage.value + 1)
     </div>
 
     <!-- Comments Header -->
-    <div class="mb-8">
+    <div class="mb-8" ref="commentsSection">
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
           Comments
