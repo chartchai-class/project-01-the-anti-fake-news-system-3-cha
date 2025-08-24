@@ -123,8 +123,8 @@ const isFakeNews = computed(() => props.news.status.toLowerCase() === 'fake news
       ]"></div>
 
       <!-- Read More Indicator -->
-      <div class="absolute bottom-4 right-6 opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
-        <div class="flex items-center gap-2 text-gray-500 text-sm font-medium">
+      <div class="absolute bottom-8 right-8 opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+        <div class="flex items-center gap-2 text-white text-sm font-medium">
           <span>Read more</span>
           <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -134,54 +134,3 @@ const isFakeNews = computed(() => props.news.status.toLowerCase() === 'fake news
     </article>
   </RouterLink>
 </template>
-
-<style scoped>
-/* Line clamp utilities for text truncation */
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Custom hover animations */
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 0 0 currentColor;
-  }
-  50% {
-    box-shadow: 0 0 20px 5px currentColor;
-  }
-}
-
-.group:hover .status-glow {
-  animation: pulse-glow 2s infinite;
-}
-
-/* Custom scrollbar for any overflow content */
-::-webkit-scrollbar {
-  width: 4px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 2px;
-}
-
-/* Focus styles for accessibility */
-.group:focus-visible {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-</style>

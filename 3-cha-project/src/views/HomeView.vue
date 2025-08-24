@@ -4,9 +4,10 @@ import NewsCard from '@/components/NewsCard.vue';
 import axios from 'axios';
 import type { New } from '@/types';
 import NProgress from 'nprogress';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter();
+const route = useRoute();
 
 // State variables to hold the news data, current page, items per page limit, and filter.
 const newsList = ref<New[]>([]);
@@ -16,8 +17,7 @@ const filter = ref('all');
 const isLoading = ref(false); // New state variable for the loading spinner
 const animationKey = ref(0); // A new key to force animation re-render
 
-// Function to handle the start and end of the loading state.
-// This is used for both the NProgress bar and the local spinner.
+// Function to handle the start and end of the loading state. nprogress is used for the top loading bar.
 const startLoading = () => {
   isLoading.value = true;
   NProgress.start();
@@ -107,24 +107,43 @@ watch(filter, () => {
   setTimeout(() => { stopLoading(); }, 300); // Simulate a brief loading time
 });
 
-watch(limit, () => {
+watch(limit, (newLimit) => {
   startLoading();
-  page.value = 1; // Reset to the first page when the limit changes
+  page.value = 1;
+  router.replace({
+    query: {
+      ...route.query,
+      page: String(page.value),
+      limit: String(newLimit),
+    },
+  });
   scrollToTop();
-  animationKey.value++; // Increment key to force animation re-render
-  setTimeout(() => { stopLoading(); }, 300); // Simulate a brief loading time
+  animationKey.value++;
+  setTimeout(() => { stopLoading(); }, 300);
 });
 
-watch(page, () => {
+watch(page, (newPage) => {
   startLoading();
+  router.replace({
+    query: {
+      ...route.query,
+      page: String(newPage),
+      limit: String(limit.value ?? 4),
+    },
+  });
   scrollToTop();
-  setTimeout(() => { stopLoading(); }, 300); // Simulate a brief loading time
+  setTimeout(() => { stopLoading(); }, 300);
 });
+
 
 // Fetch news data when the component is first mounted.
 onMounted(() => {
+  const query = route.query;
+  if (query.page) page.value = Number(query.page);
+  if (query.limit) limit.value = Number(query.limit);
   fetchNews();
 });
+
 </script>
 
 <template>
@@ -200,9 +219,8 @@ onMounted(() => {
           :news="news"
           :class="[
             'transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl',
-            // Use the new Tailwind animation utilities
-            'animate-fade-in-up',
-            { 'animation-delay-100': index % 2 === 1 }
+            'animate-fade-in-up opacity-0',
+            { 'delay-100': index % 2 === 1 }
           ]"
         />
       </div>
@@ -263,20 +281,3 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
-<style scoped>
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in-up {
-  animation: fade-in-up 0.8s ease-out forwards;
-}
-</style>

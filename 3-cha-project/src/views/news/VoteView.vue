@@ -3,12 +3,14 @@ import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useVotesStore } from '@/stores/votes'
 import VoteResultCard from '@/components/VoteResultCard.vue'
+import { useMessageStore } from '@/stores/message'
 
 type Choice = 'not_fake' | 'fake'
 const route = useRoute()
 const router = useRouter()
 const newsId = String(route.params.id ?? '')
 const votes = useVotesStore()
+const messageStore = useMessageStore()
 
 const choice = ref<Choice | ''>('')
 const name = ref('')
@@ -20,7 +22,10 @@ const canSubmit = computed(
 )
 
 async function onSubmit() {
-  if (!canSubmit.value) return
+  if (!canSubmit.value) {
+    messageStore.updateMessages('Please select your voting option and fill in your name before submitting.')
+    return
+  }
 
   isSubmitting.value = true
 
@@ -34,6 +39,9 @@ async function onSubmit() {
       vote: choice.value as 'not_fake' | 'fake',
       createdAt: new Date().toISOString(),
     })
+
+    messageStore.updateMessages('Voting successful! Thank you 🙌')
+    setTimeout(() => messageStore.resetMessages(), 1000)
 
     router.push({ name: 'news-comment-list-view', params: { id: newsId } })
 
@@ -268,30 +276,3 @@ async function onSubmit() {
     </div>
   </div>
 </template>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-/* Custom scrollbar for webkit browsers */
-textarea::-webkit-scrollbar {
-  width: 6px;
-}
-textarea::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
-}
-textarea::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 10px;
-}
-textarea::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
-}
-</style>
