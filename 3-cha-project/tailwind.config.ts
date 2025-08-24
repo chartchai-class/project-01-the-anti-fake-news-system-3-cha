@@ -19,6 +19,7 @@ export default {
         'fade-in-up': 'fade-in-up 0.8s ease-out forwards',
         'slide-down': 'slide-down 0.5s ease-out forwards',
         'slide-in': 'slideIn 0.3s ease-out forwards',
+        'pulse-glow': 'pulse-glow 2s infinite',
       },
       keyframes: {
         fadeOutDown: {
@@ -40,6 +41,10 @@ export default {
         slideIn: {
           from: { opacity: '0', transform: 'translateY(-10px)' },
           to: { opacity: '1', transform: 'translateY(0)' },
+        },
+        'pulse-glow': {
+          '0%, 100%': { 'box-shadow': '0 0 0 0 currentColor'},
+          '50%': { 'box-shadow': '0 0 20px 5px currentColor'},
         },
       },
       animationDelay: {
