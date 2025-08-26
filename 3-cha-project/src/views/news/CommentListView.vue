@@ -54,7 +54,7 @@ const nextPage = () => goToPage(currentPage.value + 1)
     </div>
 
     <!-- Comments Header -->
-    <div class="mb-8" ref="commentsSection">
+    <div class="mb-8 scroll-mt-28" ref="commentsSection">
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
           Comments
