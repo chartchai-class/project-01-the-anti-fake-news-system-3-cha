@@ -25,11 +25,6 @@ This project is part of **SE331: Component-Based Software Development**.
 
 ---
 
-## 🎨 Figma Design
-👉 [Figma Link](https://www.figma.com/design/MwB4lvfNkg5chXKiXead7n/Compo?node-id=0-1&t=Wz87huFlS6s1chkf-1)
-
----
-
 ## ✨ Features
 - 📰 News feed & detail views  
 - 🗳️ Voting on article trustworthiness  
